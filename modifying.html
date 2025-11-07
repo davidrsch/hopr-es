@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Garrett Grolemund">
 <title>5&nbsp; Modificación de Valores – Programación práctica con R</title>
@@ -66,14 +66,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./projectlogo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e8de9bd59ba156b9e4cb33cd6f01d621.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -87,7 +88,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "Sin resultados",
+    "search-no-results-text": "No se han encontrado resultados",
     "search-matching-documents-text": "documentos encontrados",
     "search-copy-link-title": "Copiar el enlace en la búsqueda",
     "search-hide-matches-text": "Ocultar resultados adicionales",
@@ -117,7 +118,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Programación práctica con R</a> 
         <div class="sidebar-tools-main">
@@ -130,7 +133,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             </a>
           </li>
           <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/davidrsch/hopres">
+            <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/davidrsch/hopr-es">
             Traducción
             </a>
           </li>
@@ -329,34 +332,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header><p>¿Estás listo para jugar algunos juegos con tu mazo virtual? ¡No tan rápido! El sistema de puntos en su mazo de cartas no se alinea bien con muchos juegos de cartas. Por ejemplo, en la guerra y el póquer, los ases suelen tener una puntuación más alta que los reyes. Tendrían un valor en puntos de 14, no de 1.</p>
 <p>En esta tarea, cambiará el sistema de puntos de su mazo tres veces para que coincida con tres juegos diferentes: guerra, corazones y blackjack. Cada uno de estos juegos te enseñará algo diferente sobre cómo modificar los valores dentro de un conjunto de datos. Comience por hacer una copia de <code>mazo</code> que pueda manipular. Esto asegurará que siempre tenga una copia impecable de <code>mazo</code> a la que recurrir (en caso de que las cosas salgan mal):</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span> <span class="op">&lt;-</span> <span class="va">mazo</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span> <span class="op">&lt;-</span> <span class="va">mazo</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <section id="cambio-de-valores-en-el-lugar" class="level3" data-number="5.0.1"><h3 data-number="5.0.1" class="anchored" data-anchor-id="cambio-de-valores-en-el-lugar">
 <span class="header-section-number">5.0.1</span> Cambio de Valores en el Lugar</h3>
 <p>Puede usar el sistema de notación de R para modificar valores dentro de un objeto de R. Primero, describa el valor (o valores) que desea modificar. Luego use el operador de asignación <code>&lt;-</code> para sobrescribir esos valores. R actualizará los valores seleccionados <em>en el objeto original</em>. Pongamos esto en práctica con un ejemplo real:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="va">vec</span></span>
-<span><span class="co">##  0 0 0 0 0 0</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  0 0 0 0 0 0</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Así es como puede seleccionar el primer valor de <code>vec</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vec</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
-<span><span class="co">##  0</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vec</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="co">##  0</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Y así es como puedes modificarlo:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vec</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vec</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
 <span><span class="va">vec</span></span>
-<span><span class="co">## 1000    0    0    0    0    0</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## 1000    0    0    0    0    0</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Puede reemplazar varios valores a la vez siempre que la cantidad de valores nuevos sea igual a la cantidad de valores seleccionados:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vec</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vec</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">vec</span></span>
 <span><span class="co">##  1 0 1 0 1 0</span></span>
 <span></span>
 <span><span class="va">vec</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">vec</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span> <span class="op">+</span> <span class="fl">1</span></span>
 <span><span class="va">vec</span></span>
-<span><span class="co">## 1 0 1 1 2 1</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## 1 0 1 1 2 1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>También puede crear valores que aún no existen en su objeto. R expandirá el objeto para acomodar los nuevos valores:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vec</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vec</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
 <span><span class="va">vec</span></span>
-<span><span class="co">## 1 0 1 1 2 1 0</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## 1 0 1 1 2 1 0</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Esto proporciona una excelente manera de agregar nuevas variables a su conjunto de datos:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">$</span><span class="va">nuevo</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">52</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">$</span><span class="va">nuevo</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">52</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mazo2</span><span class="op">)</span></span>
 <span><span class="co">##   cara  palo valor nuevo</span></span>
@@ -365,9 +368,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co">##   jota picas    11   3</span></span>
 <span><span class="co">##   diez picas    10   4</span></span>
 <span><span class="co">##  nueve picas     9   5</span></span>
-<span><span class="co">##   ocho picas     8   6</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##   ocho picas     8   6</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>También puede eliminar columnas de un data frame (y elementos de una lista) asignándoles el símbolo <code>NULL</code>:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">$</span><span class="va">nuevo</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">$</span><span class="va">nuevo</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mazo2</span><span class="op">)</span></span>
 <span><span class="co">##   cara  palo valor </span></span>
@@ -376,29 +379,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co">##   jota picas    11</span></span>
 <span><span class="co">##   diez picas    10</span></span>
 <span><span class="co">##  nueve picas     9</span></span>
-<span><span class="co">##   ocho picas     8</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##   ocho picas     8</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>En el juego de la guerra, los ases son el rey (en sentido figurado). Reciben el valor más alto de todas las cartas, que sería algo así como 14. Todas las demás cartas obtienen el valor que ya tienen en el <code>mazo</code>. Para jugar a la guerra, solo necesitas cambiar los valores de tus ases del 1 al 14.</p>
 <p>Siempre que no hayas barajado tu mazo, sabes dónde están los ases. Aparecen cada 13 cartas. Por lo tanto, puede describirlos con el sistema de notación de R:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">13</span>, <span class="fl">26</span>, <span class="fl">39</span>, <span class="fl">52</span><span class="op">)</span>, <span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">13</span>, <span class="fl">26</span>, <span class="fl">39</span>, <span class="fl">52</span><span class="op">)</span>, <span class="op">]</span></span>
 <span><span class="co">##  cara      palo valor</span></span>
 <span><span class="co">##    as     picas     1</span></span>
 <span><span class="co">##    as  treboles     1</span></span>
 <span><span class="co">##    as diamantes     1</span></span>
-<span><span class="co">##    as corazones     1</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##    as corazones     1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Puede seleccionar solo los <em>valores</em> de los ases subdividiendo la dimensión de las columnas de <code>mazo2</code>. O, mejor aún, puede crear un subconjunto del vector de columna <code>mazo2$valor</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">13</span>, <span class="fl">26</span>, <span class="fl">39</span>, <span class="fl">52</span><span class="op">)</span>, <span class="fl">3</span><span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">13</span>, <span class="fl">26</span>, <span class="fl">39</span>, <span class="fl">52</span><span class="op">)</span>, <span class="fl">3</span><span class="op">]</span></span>
 <span><span class="co">## 1 1 1 1</span></span>
 <span></span>
 <span><span class="va">mazo2</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">13</span>, <span class="fl">26</span>, <span class="fl">39</span>, <span class="fl">52</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="co">## 1 1 1 1</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## 1 1 1 1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Ahora todo lo que tiene que hacer es asignar un nuevo conjunto de valores a estos valores antiguos. El conjunto de valores nuevos deberá tener el mismo tamaño que el conjunto de valores que está reemplazando. Por lo tanto, podría guardar <code>c(14, 14, 14, 14)</code> en los valores as, o simplemente podría guardar <em><code>14</code></em> y confiar en las reglas de reciclaje de R para expandir <code>14</code> a <code>c(14, 14, 14, 14)</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">13</span>, <span class="fl">26</span>, <span class="fl">39</span>, <span class="fl">52</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">14</span>, <span class="fl">14</span>, <span class="fl">14</span>, <span class="fl">14</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">13</span>, <span class="fl">26</span>, <span class="fl">39</span>, <span class="fl">52</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">14</span>, <span class="fl">14</span>, <span class="fl">14</span>, <span class="fl">14</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># or</span></span>
 <span></span>
-<span><span class="va">mazo2</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">13</span>, <span class="fl">26</span>, <span class="fl">39</span>, <span class="fl">52</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">14</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">mazo2</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">13</span>, <span class="fl">26</span>, <span class="fl">39</span>, <span class="fl">52</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">14</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Observe que los valores cambian <em>en su lugar</em>. No terminas con una <em>copia</em> modificada de <code>mazo2</code>; los nuevos valores aparecerán dentro de <code>mazo2</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mazo2</span>, <span class="fl">13</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mazo2</span>, <span class="fl">13</span><span class="op">)</span></span>
 <span><span class="co">##   cara  palo valor</span></span>
 <span><span class="co">##    rey picas    13</span></span>
 <span><span class="co">##  reina picas    12</span></span>
@@ -412,29 +415,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co">## cuatro picas     4</span></span>
 <span><span class="co">##   tres picas     3</span></span>
 <span><span class="co">##    dos picas     2</span></span>
-<span><span class="co">##     as picas    14</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##     as picas    14</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>La misma técnica funcionará ya sea que almacene sus datos en un vector, matriz, arreglo, lista o data frame. Simplemente describa los valores que desea cambiar con el sistema de notación de R, luego asigne sobre esos valores con el operador de asignación de R.</p>
 <p>Las cosas funcionaron muy fácilmente en este ejemplo porque sabías exactamente dónde estaba cada as. Las cartas se ordenaron de manera ordenada y apareció un as cada 13 filas.</p>
 <p>Pero, ¿y si se hubiera barajado la baraja? Podrías mirar todas las cartas y anotar las ubicaciones de los ases, pero eso sería tedioso. Si su data frame fuera más grande, podría ser imposible:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo3</span> <span class="op">&lt;-</span> <span class="fu">barajar</span><span class="op">(</span><span class="va">mazo</span><span class="op">)</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo3</span> <span class="op">&lt;-</span> <span class="fu">barajar</span><span class="op">(</span><span class="va">mazo</span><span class="op">)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>¿Dónde están los ases ahora?</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mazo3</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mazo3</span><span class="op">)</span></span>
 <span><span class="co">##  cara      palo valor</span></span>
 <span><span class="co">## reina  treboles    12</span></span>
 <span><span class="co">##   rey  treboles    13</span></span>
 <span><span class="co">##    as     picas     1   # un as</span></span>
 <span><span class="co">## nueve  treboles     9</span></span>
 <span><span class="co">## siete     picas     7</span></span>
-<span><span class="co">## reina diamantes    12</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## reina diamantes    12</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>¿Por qué no pedirle a R que encuentre los ases por ti? Puede hacer esto con subconjuntos lógicos. La creación de subconjuntos lógicos proporciona una forma de realizar una extracción y modificación específicas con objetos R, una especie de misión de búsqueda y destrucción dentro de sus propios conjuntos de datos.</p>
 </section><section id="subconjunto-lógico" class="level3" data-number="5.0.2"><h3 data-number="5.0.2" class="anchored" data-anchor-id="subconjunto-lógico">
 <span class="header-section-number">5.0.2</span> Subconjunto Lógico</h3>
 <p>¿Recuerdas el sistema de índice lógico de R, <a href="#logicals">lógicos</a>? Para recapitular, puede seleccionar valores con un vector de <code>TRUE</code> y <code>FALSE</code>. El vector debe tener la misma longitud que la dimensión que desea dividir en subconjuntos. R devolverá todos los elementos que coincidan con un VERDADERO:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vec</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vec</span></span>
 <span><span class="co">## 1 0 1 1 2 1 0</span></span>
 <span></span>
 <span><span class="va">vec</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="co">## 2</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## 2</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A primera vista, este sistema puede parecer poco práctico. ¿Quién quiere escribir largos vectores de TRUE y FALSE? Nadie. Pero no tienes que hacerlo. Puede dejar que una prueba lógica cree un vector de VERDADEROS y FALSOS para usted.</p>
 <section id="pruebas-lógicas" class="level4" data-number="5.0.2.1"><h4 data-number="5.0.2.1" class="anchored" data-anchor-id="pruebas-lógicas">
 <span class="header-section-number">5.0.2.1</span> Pruebas Lógicas</h4>
@@ -491,16 +494,16 @@ Tabla&nbsp;5.1: Operadores Lógicos de R
 </figure>
 </div>
 <p>Cada operador devuelve un <code>TRUE</code> o un <code>FALSE</code>. Si usa un operador para comparar vectores, R hará comparaciones por elementos, tal como lo hace con los operadores aritméticos:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fl">1</span> <span class="op">&gt;</span> <span class="fl">2</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fl">1</span> <span class="op">&gt;</span> <span class="fl">2</span></span>
 <span><span class="co">## FALSE</span></span>
 <span></span>
 <span><span class="fl">1</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">## TRUE FALSE FALSE</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">## FALSE  TRUE FALSE</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## FALSE  TRUE FALSE</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>%in%</code> es el único operador que no realiza una ejecución normal de elementos. <code>%in%</code> comprueba si los valores del lado izquierdo están en el vector del lado derecho. Si proporciona un vector en el lado izquierdo, <code>%in%</code> <em>no</em> emparejará los valores de la izquierda con los valores de la derecha y luego realizará pruebas por elementos. En su lugar, <code>%in%</code> probará de forma independiente si cada valor de la izquierda está <em>en algún lugar</em> en el vector de la derecha:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fl">1</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fl">1</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">## FALSE</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span>
@@ -510,7 +513,7 @@ Tabla&nbsp;5.1: Operadores Lógicos de R
 <span><span class="co">## FALSE FALSE  TRUE</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">## FALSE FALSE  TRUE  TRUE</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## FALSE FALSE  TRUE  TRUE</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Tenga en cuenta que comprueba la igualdad con un signo igual doble, <code>==</code>, y no con un solo signo igual, <code>=</code>, que es otra forma de escribir <code>&lt;-</code>. Es fácil olvidar y usar <code>a = b</code> para probar si <code>a</code> es igual a <code>b</code>. Desafortunadamente, te llevarás una desagradable sorpresa. R no devolverá un <code>TRUE</code> o <code>FALSE</code>, porque no tendrá que hacerlo: <code>a</code> <em>será</em> igual a <code>b</code>, porque acabas de ejecutar el equivalente de <code>a &lt;- b</code>.</p>
 <div class="callout callout-style-simple callout-warning">
 <div class="callout-body d-flex">
@@ -526,7 +529,7 @@ Tabla&nbsp;5.1: Operadores Lógicos de R
 <p>Puede comparar dos objetos R cualquiera con un operador lógico; sin embargo, los operadores lógicos tienen más sentido si compara dos objetos del mismo tipo de datos. Si compara objetos de diferentes tipos de datos, R usará sus reglas de coerción para forzar los objetos al mismo tipo antes de realizar la comparación.</p>
 <p><strong>Ejercicio 5.1 ¿Cuántas ases?</strong> Extraiga la columna <code>cara</code> de <code>mazo2</code> y pruebe si cada valor es igual a <code>as</code>. Como desafío, use R para contar rápidamente cuántas cartas son iguales a <code>as</code>.</p>
 <p><em>Solución.</em> Puede extraer la columna <code>cara</code> con la notación <code>$</code> de R:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">$</span><span class="va">cara</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">$</span><span class="va">cara</span></span>
 <span><span class="co">##  "rey"  "reina" "jota"  "diez"   "nueve" </span></span>
 <span><span class="co">##  "ocho" "siete" "seis"   "cinco"  "cuatro" </span></span>
 <span><span class="co">##  "tres" "dos"   "as" "rey"  "reina"</span></span>
@@ -537,9 +540,9 @@ Tabla&nbsp;5.1: Operadores Lógicos de R
 <span><span class="co">##  "cuatro"  "tres" "dos"   "as"   "rey" </span></span>
 <span><span class="co">##  "reina" "jota"  "diez"   "nueve"  "ocho"</span></span>
 <span><span class="co">##  "siete" "seis"   "cinco"  "cuatro"  "tres"</span></span>
-<span><span class="co">##  "dos"   "as"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  "dos"   "as"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A continuación, puede utilizar el operador <code>==</code> para probar si cada valor es igual a <code>as</code>. En el siguiente código, R usará sus reglas de reciclaje para comparar individualmente cada valor de <code>mazo2$cara</code> con <code>"as"</code>. Tenga en cuenta que las comillas son importantes. Si los omite, R intentará encontrar un objeto llamado <code>as</code> para compararlo con <code>mazo2$cara</code>:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"as"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo2</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"as"</span></span>
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE  TRUE FALSE</span></span>
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
@@ -547,17 +550,17 @@ Tabla&nbsp;5.1: Operadores Lógicos de R
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
 <span><span class="co">##  FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</span></span>
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span><span class="co">##  FALSE FALSE  TRUE</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  FALSE FALSE  TRUE</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Puede usar <code>sum</code> para contar rápidamente el número de <code>TRUE</code> en el vector anterior. Recuerde que R convertirá los lógicos en numéricos cuando haga operaciones matemáticas con ellos. R convertirá <code>TRUE</code> en unos y <code>FALSE</code> en ceros. Como resultado, sum contará el número de <code>TRUE</code>:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">mazo2</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"as"</span><span class="op">)</span></span>
-<span><span class="co">## 4</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">mazo2</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"as"</span><span class="op">)</span></span>
+<span><span class="co">## 4</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Puede usar este método para detectar y luego cambiar los ases en su mazo, incluso si ha barajado sus cartas. Primero, crea una prueba lógica que identifique los ases en tu baraja barajada:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo3</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"as"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo3</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"as"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Luego use la prueba para seleccionar los valores de puntos as. Dado que la prueba devuelve un vector lógico, puede usarlo como índice:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo3</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">mazo3</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"as"</span><span class="op">]</span></span>
-<span><span class="co">##  1 1 1 1</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo3</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">mazo3</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"as"</span><span class="op">]</span></span>
+<span><span class="co">##  1 1 1 1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Finalmente, usa la asignación para cambiar los valores de as en <code>mazo3</code>:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo3</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">mazo3</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"as"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">14</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo3</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">mazo3</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"as"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">14</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mazo3</span><span class="op">)</span></span>
 <span><span class="co">##  cara      palo valor</span></span>
@@ -566,12 +569,12 @@ Tabla&nbsp;5.1: Operadores Lógicos de R
 <span><span class="co">##    as     picas    14  # un as</span></span>
 <span><span class="co">## nueve  treboles     9</span></span>
 <span><span class="co">## siete     picas     7</span></span>
-<span><span class="co">## reina diamantes    12</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## reina diamantes    12</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Para resumir, puede usar una prueba lógica para seleccionar valores dentro de un objeto.</p>
 <p>La creación de subconjuntos lógicos es una técnica poderosa porque le permite identificar, extraer y modificar rápidamente valores individuales en su conjunto de datos. Cuando trabaja con subconjuntos lógicos, no necesita saber <em>dónde</em> en su conjunto de datos existe un valor. Solo necesita saber cómo describir el valor con una prueba lógica.</p>
 <p>El subconjunto lógico es una de las cosas que R hace mejor. De hecho, el subconjunto lógico es un componente clave de la programación vectorizada, un estilo de codificación que le permite escribir código R rápido y eficiente, que estudiaremos en <a href="speed.html">Velocidad</a>.</p>
 <p>Usemos subconjuntos lógicos con un nuevo juego: corazones. En corazones, cada carta tiene un valor de cero:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span> <span class="op">&lt;-</span> <span class="va">mazo</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span> <span class="op">&lt;-</span> <span class="va">mazo</span></span>
 <span><span class="va">mazo4</span><span class="op">$</span><span class="va">valor</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mazo4</span>, <span class="fl">13</span><span class="op">)</span></span>
@@ -588,11 +591,11 @@ Tabla&nbsp;5.1: Operadores Lógicos de R
 <span><span class="co">## cuatro picas     0</span></span>
 <span><span class="co">##   tres picas     0</span></span>
 <span><span class="co">##    dos picas     0</span></span>
-<span><span class="co">##     as picas     0</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##     as picas     0</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>excepto las cartas del palo de corazones y la reina de picas. Cada carta del palo de corazones tiene un valor de 1. ¿Puedes encontrar estas cartas y reemplazar sus valores? Intentalo.</p>
 <p><strong>Ejercicio 5.2 (Dar Valor al Mazo para el Juego Corazones)</strong> Asigne un valor de <code>1</code> a cada carta en <code>mazo4</code> que tenga un palo de corazones.</p>
 <p><em>Solución.</em> Para hacer esto, primero escribe una prueba que identifique las cartas en el palo <code>corazones</code>:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"corazones"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"corazones"</span></span>
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
@@ -600,24 +603,24 @@ Tabla&nbsp;5.1: Operadores Lógicos de R
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
 <span><span class="co">##  FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE</span></span>
 <span><span class="co">##   TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span><span class="co">##   TRUE  TRUE  TRUE</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##   TRUE  TRUE  TRUE</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Luego usa tu prueba para seleccionar los valores de estas cartas:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"corazones"</span><span class="op">]</span></span>
-<span><span class="co">## 0 0 0 0 0 0 0 0 0 0 0 0 0</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"corazones"</span><span class="op">]</span></span>
+<span><span class="co">## 0 0 0 0 0 0 0 0 0 0 0 0 0</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Finalmente, asigne un nuevo número a estos valores:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"corazones"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"corazones"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Ahora todas sus cartas de <code>corazones</code> han sido actualizadas:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"corazones"</span><span class="op">]</span></span>
-<span><span class="co">## 1 1 1 1 1 1 1 1 1 1 1 1 1</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"corazones"</span><span class="op">]</span></span>
+<span><span class="co">## 1 1 1 1 1 1 1 1 1 1 1 1 1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>En corazones, la reina de picas tiene el valor más inusual de todos: vale 13 puntos. Debería ser sencillo cambiar su valor, pero es sorprendentemente difícil de encontrar. Podrías encontrar todas las <em>reinas</em>:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">[</span><span class="va">mazo4</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"reina"</span>, <span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">[</span><span class="va">mazo4</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"reina"</span>, <span class="op">]</span></span>
 <span><span class="co">##   cara      palo valor</span></span>
 <span><span class="co">##  reina     picas     0</span></span>
 <span><span class="co">##  reina  treboles     0</span></span>
 <span><span class="co">##  reina diamantes     0</span></span>
-<span><span class="co">##  reina corazones     1</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  reina corazones     1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Pero son tres cartas de más. Por otro lado, podrías encontrar todas las cartas en <em>picas</em>:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">[</span><span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"picas"</span>, <span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">[</span><span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"picas"</span>, <span class="op">]</span></span>
 <span><span class="co">##   cara  palo valor</span></span>
 <span><span class="co">##    rey picas     0</span></span>
 <span><span class="co">##  reina picas     0</span></span>
@@ -631,7 +634,7 @@ Tabla&nbsp;5.1: Operadores Lógicos de R
 <span><span class="co">## cuatro picas     0</span></span>
 <span><span class="co">##   tres picas     0</span></span>
 <span><span class="co">##    dos picas     0</span></span>
-<span><span class="co">##     as picas     0</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##     as picas     0</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Pero son 12 cartas de más. Lo que realmente quiere encontrar es todas las cartas que tienen un valor de cara igual a la reina y un valor del palo igual a las picas. Puede hacerlo con un <em>operador booleano</em>. Los operadores booleanos combinan varias pruebas lógicas en una sola prueba.</p>
 </section><section id="operadores-booleanos" class="level4" data-number="5.0.2.2"><h4 data-number="5.0.2.2" class="anchored" data-anchor-id="operadores-booleanos">
 <span class="header-section-number">5.0.2.2</span> Operadores Booleanos</h4>
@@ -712,7 +715,7 @@ Figura&nbsp;5.1: R evaluará las expresiones en cada lado de un operador boolean
 </div>
 </div>
 <p>Cuando se usan con vectores, los operadores booleanos seguirán la misma ejecución de elementos que los operadores aritméticos y lógicos:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span></span>
 <span></span>
@@ -723,9 +726,9 @@ Figura&nbsp;5.1: R evaluará las expresiones en cada lado de un operador boolean
 <span><span class="co">##  TRUE  TRUE FALSE</span></span>
 <span></span>
 <span><span class="va">a</span> <span class="op">==</span> <span class="va">b</span> <span class="op">&amp;</span> <span class="va">b</span> <span class="op">==</span> <span class="va">c</span></span>
-<span><span class="co">##  TRUE  TRUE FALSE</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  TRUE  TRUE FALSE</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>¿Podría usar un operador booleano para ubicar la reina de picas en su mazo? Por supuesto que puede. Desea probar cada carta para ver si es tanto una reina como una pica. Puedes escribir esta prueba en R con:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"reina"</span> <span class="op">&amp;</span> <span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"picas"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"reina"</span> <span class="op">&amp;</span> <span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"picas"</span></span>
 <span><span class="co">##  FALSE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
@@ -733,22 +736,22 @@ Figura&nbsp;5.1: R evaluará las expresiones en cada lado de un operador boolean
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
 <span><span class="co">##  FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span><span class="co">##  FALSE FALSE FALSE</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  FALSE FALSE FALSE</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Guardaré los resultados de esta prueba en su propio objeto. Eso hará que sea más fácil trabajar con los resultados:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reinaDePicas</span> <span class="op">&lt;-</span> <span class="va">mazo4</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"reina"</span> <span class="op">&amp;</span> <span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"picas"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reinaDePicas</span> <span class="op">&lt;-</span> <span class="va">mazo4</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"reina"</span> <span class="op">&amp;</span> <span class="va">mazo4</span><span class="op">$</span><span class="va">palo</span> <span class="op">==</span> <span class="st">"picas"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A continuación, puede utilizar la prueba como índice para seleccionar el valor de la reina de picas. Asegúrese de que la prueba realmente seleccione el valor correcto:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">[</span><span class="va">reinaDePicas</span>, <span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">[</span><span class="va">reinaDePicas</span>, <span class="op">]</span></span>
 <span><span class="co">##  cara  palo valor</span></span>
 <span><span class="co">## reina picas     0</span></span>
 <span></span>
 <span><span class="va">mazo4</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">reinaDePicas</span><span class="op">]</span></span>
-<span><span class="co">## 0</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## 0</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Ahora que encontraste la reina de picas, puedes actualizar su valor:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">reinaDePicas</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">13</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo4</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">reinaDePicas</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">13</span></span>
 <span></span>
 <span><span class="va">mazo4</span><span class="op">[</span><span class="va">reinaDePicas</span>, <span class="op">]</span></span>
 <span><span class="co">##  cara  palo valor</span></span>
-<span><span class="co">## reina picas    13</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## reina picas    13</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Tu mazo está listo para jugar corazones.</p>
 <p><strong>Ejercicio 5.3 (Practica con Pruebas)</strong> Si cree que domina las pruebas lógicas, intente convertir estas oraciones en pruebas escritas con código R. Para ayudarte, he definido algunos objetos de R después de las oraciones que puedes usar para probar tus respuestas:</p>
 <ul>
@@ -757,19 +760,19 @@ Figura&nbsp;5.1: R evaluará las expresiones en cada lado de un operador boolean
 <li>¿Es objeto <code>y</code> la palabra Febrero?</li>
 <li>¿Son <em>todos</em> los valores de <code>z</code> un día de la semana?</li>
 </ul>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">15</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="st">"Febrero"</span></span>
-<span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Lunes"</span>, <span class="st">"Martes"</span>, <span class="st">"Viernes"</span><span class="op">)</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Lunes"</span>, <span class="st">"Martes"</span>, <span class="st">"Viernes"</span><span class="op">)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p><em>Solución.</em> Aquí hay algunas respuestas de ejemplo. Si se quedó atascado, asegúrese de volver a leer cómo R evalúa las pruebas lógicas que usan valores booleanos:</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">w</span> <span class="op">&gt;</span> <span class="fl">0</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">w</span> <span class="op">&gt;</span> <span class="fl">0</span></span>
 <span><span class="fl">10</span> <span class="op">&lt;</span> <span class="va">x</span> <span class="op">&amp;</span> <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">20</span></span>
 <span><span class="va">y</span> <span class="op">==</span> <span class="st">"Febrero"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="va">z</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Lunes"</span>, <span class="st">"Martes"</span>, <span class="st">"Miercoles"</span>, <span class="st">"Jueves"</span>, <span class="st">"Viernes"</span>, </span>
-<span>  <span class="st">"Sabado"</span>, <span class="st">"Domingo"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="st">"Sabado"</span>, <span class="st">"Domingo"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Consideremos un último juego, el blackjack. En el blackjack, cada carta numérica tiene un valor igual a su valor nominal. Cada figura (rey, reina o jota) tiene un valor de 10. Finalmente, cada as tiene un valor de 11 o 1, dependiendo de los resultados finales del juego.</p>
 <p>Comencemos con una copia nueva de <code>mazo</code>; de esa manera, las cartas numéricas (<code>dos</code> a <code>diez</code>) comenzarán con el valor correcto:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mako5</span> <span class="op">&lt;-</span> <span class="va">mazo</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mako5</span> <span class="op">&lt;-</span> <span class="va">mazo</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mazo5</span>, <span class="fl">13</span><span class="op">)</span></span>
 <span><span class="co">##    rey picas    13</span></span>
@@ -784,9 +787,9 @@ Figura&nbsp;5.1: R evaluará las expresiones en cada lado de un operador boolean
 <span><span class="co">## cuatro picas     4</span></span>
 <span><span class="co">##   tres picas     3</span></span>
 <span><span class="co">##    dos picas     2</span></span>
-<span><span class="co">##     as picas     1</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##     as picas     1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Puedes cambiar el valor de las figuras de una sola vez con <code>%in%</code>:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">caracartas</span> <span class="op">&lt;-</span> <span class="va">mazo5</span><span class="op">$</span><span class="va">cara</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"rey"</span>, <span class="st">"reina"</span>, <span class="st">"jota"</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">caracartas</span> <span class="op">&lt;-</span> <span class="va">mazo5</span><span class="op">$</span><span class="va">cara</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"rey"</span>, <span class="st">"reina"</span>, <span class="st">"jota"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mazo5</span><span class="op">[</span><span class="va">caracartas</span>, <span class="op">]</span></span>
 <span><span class="co">##   cara      palo valor</span></span>
@@ -819,50 +822,50 @@ Figura&nbsp;5.1: R evaluará las expresiones en cada lado de un operador boolean
 <span><span class="co">## cuatro picas     4</span></span>
 <span><span class="co">##   tres picas     3</span></span>
 <span><span class="co">##    dos picas     2</span></span>
-<span><span class="co">##     as picas     1</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##     as picas     1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Ahora solo necesita corregir los valores de as, ¿o no? Es difícil decidir qué valor dar a los ases porque su valor exacto cambiará de una mano a otra. Al final de cada mano, un as será igual a 11 si la suma de las cartas del jugador no supera los 21. De lo contrario, el as será igual a 1. El valor real del as dependerá de las otras cartas en la mano del jugador. Este es un caso de falta de información. Por el momento, no tiene suficiente información para asignar un valor de puntos correcto a las cartas de as.</p>
 </section></section><section id="missing" class="level3" data-number="5.0.3"><h3 data-number="5.0.3" class="anchored" data-anchor-id="missing">
 <span class="header-section-number">5.0.3</span> Información Faltante</h3>
 <p>Los problemas de falta de información ocurren con frecuencia en la ciencia de datos. Por lo general, son más sencillos: no conoce un valor porque la medida se perdió, se corrompió o nunca se tomó para empezar. R tiene una manera de ayudarlo a administrar estos valores faltantes.</p>
 <p>El carácter <code>NA</code> es un símbolo especial en R. Significa “no disponible” y se puede utilizar como marcador de posición para la información que falta. R tratará a NA exactamente como usted debería querer que se trate la información faltante. Por ejemplo, ¿qué resultado esperaría si suma 1 a la información que falta?</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fl">1</span> <span class="op">+</span> <span class="cn">NA</span></span>
-<span><span class="co">## NA</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fl">1</span> <span class="op">+</span> <span class="cn">NA</span></span>
+<span><span class="co">## NA</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>R devolverá una segunda pieza de información faltante. No sería correcto decir que <code>1 + NA = 1</code> porque existe una buena posibilidad de que la cantidad que falta no sea cero. No tienes suficiente información para determinar el resultado.</p>
 <p>¿Qué pasa si prueba si una parte de la información que falta es igual a 1?</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="cn">NA</span> <span class="op">==</span> <span class="fl">1</span></span>
-<span><span class="co">## NA</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="cn">NA</span> <span class="op">==</span> <span class="fl">1</span></span>
+<span><span class="co">## NA</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Nuevamente, su respuesta sería algo como “No sé si esto es igual a uno”, es decir, <code>NA</code>. Generalmente, los <code>NA</code> se propagarán cada vez que los use en una operación o función de R. Esto puede evitar que cometa errores basados en datos faltantes.</p>
 <section id="na.rm" class="level4" data-number="5.0.3.1"><h4 data-number="5.0.3.1" class="anchored" data-anchor-id="na.rm">
 <span class="header-section-number">5.0.3.1</span> na.rm</h4>
 <p>Los valores faltantes pueden ayudarlo a solucionar los agujeros en sus conjuntos de datos, pero también pueden crear algunos problemas frustrantes. Suponga, por ejemplo, que ha recopilado 1.000 pases:[<phrase role="keep-together">observaciones</phrase>] y desea tomar su promedio con la función <code>mean</code> de R. Si incluso uno de los valores es <code>NA</code>, su resultado será <code>NA</code>:</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span></span>
 <span><span class="co">## NA  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16</span></span>
 <span><span class="co">## 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33</span></span>
 <span><span class="co">## 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">## NA</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## NA</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Es comprensible que prefieras un comportamiento diferente. La mayoría de las funciones de R vienen con el argumento opcional, <code>na.rm</code>, que significa remove los <code>NA</code>. R ignorará <code>NA</code>s cuando evalúa una función si agrega el argumento <code>na.rm = TRUE</code>:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">## 25.5</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">## 25.5</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section><section id="is.na" class="level4" data-number="5.0.3.2"><h4 data-number="5.0.3.2" class="anchored" data-anchor-id="is.na">
 <span class="header-section-number">5.0.3.2</span> is.na</h4>
 <p>En ocasiones, es posible que desee identificar las <code>NA</code> en su conjunto de datos con una prueba lógica, pero eso también crea un problema. ¿Cómo lo harías? Si algo es un valor faltante, cualquier prueba lógica que lo use devolverá un valor faltante, incluso esta prueba:</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="cn">NA</span> <span class="op">==</span> <span class="cn">NA</span></span>
-<span><span class="co">## NA</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="cn">NA</span> <span class="op">==</span> <span class="cn">NA</span></span>
+<span><span class="co">## NA</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Lo que significa que pruebas como esta no te ayudarán a encontrar valores faltantes:</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="cn">NA</span><span class="op">)</span> <span class="op">==</span> <span class="cn">NA</span></span>
-<span><span class="co">## NA NA NA NA</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="cn">NA</span><span class="op">)</span> <span class="op">==</span> <span class="cn">NA</span></span>
+<span><span class="co">## NA NA NA NA</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Pero no te preocupes demasiado; R proporciona una función especial que puede probar si un valor es un <code>NA</code>. La función se llama sensatamente <code>is.na</code>:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span></span>
 <span><span class="co">## TRUE</span></span>
 <span></span>
 <span><span class="va">vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="cn">NA</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">vec</span><span class="op">)</span></span>
-<span><span class="co">## FALSE FALSE FALSE  TRUE</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## FALSE FALSE FALSE  TRUE</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Establezcamos todos sus valores de as en <code>NA</code>. Esto logrará dos cosas. Primero, te recordará que no sabes el valor final de cada as. En segundo lugar, evitará que anotes accidentalmente una mano que tenga un as antes de determinar el valor final del as.</p>
 <p>Puede establecer sus valores de as en <code>NA</code> de la misma manera que los establecería en un número:</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo5</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">mazo5</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"as"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mazo5</span><span class="op">$</span><span class="va">valor</span><span class="op">[</span><span class="va">mazo5</span><span class="op">$</span><span class="va">cara</span> <span class="op">==</span> <span class="st">"as"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mazo5</span>, <span class="fl">13</span><span class="op">)</span></span>
 <span><span class="co">##   cara   palo valor</span></span>
@@ -878,7 +881,7 @@ Figura&nbsp;5.1: R evaluará las expresiones en cada lado de un operador boolean
 <span><span class="co">## cuatro picas     4</span></span>
 <span><span class="co">##   tres picas     3</span></span>
 <span><span class="co">##    dos picas     2</span></span>
-<span><span class="co">##     as picas    NA</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##     as picas    NA</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Felicidades. Su mazo ahora está listo para un juego de blackjack.</p>
 </section></section><section id="resumen" class="level3" data-number="5.0.4"><h3 data-number="5.0.4" class="anchored" data-anchor-id="resumen">
 <span class="header-section-number">5.0.4</span> Resumen</h3>
@@ -892,15 +895,15 @@ Figura&nbsp;5.1: R evaluará las expresiones en cada lado de un operador boolean
   // Chapter name
   const currentChapterFile = window.location.pathname.split('/').pop().replace('.html', '');
 
-  //Deffining urls
+  //Defining urls
   const originalURL = "https://github.com/rstudio-education/hopr";
-  const translationURL = "https://github.com/davidrsch/hopres";
+  const translationURL = "https://github.com/davidrsch/hopr-es";
 
-  //Deffining texts
+  //Defining texts
   const edit_text = "Editar esta página";
   const issue_text = "Informar de un problema"
 
-  //Deffining git_i
+  //Defining git_i
   const git_i = '<div><i class="bi bi-github"></i></div>';
 
   // Adding TOC if not exist
@@ -1005,13 +1008,14 @@ Figura&nbsp;5.1: R evaluará las expresiones en cada lado de un operador boolean
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
