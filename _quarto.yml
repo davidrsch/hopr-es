@@ -24,7 +24,7 @@ book:
           - text: Original
             url: https://github.com/rstudio-education/hopr
           - text: Traducción
-            url: https://github.com/davidrsch/hopres
+            url: https://github.com/davidrsch/hopr-es
   chapters:
     - index.qmd
     - preface.qmd
