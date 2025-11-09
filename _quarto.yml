@@ -5,6 +5,7 @@ project:
 book:
   title: "Programación práctica con R"
   reader-mode: true
+  site-url: https://davidrsch.github.io/hopr-es/
   
   page-footer:
     left: |
