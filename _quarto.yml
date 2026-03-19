@@ -5,7 +5,12 @@ project:
 book:
   title: "Programación práctica con R"
   reader-mode: true
-  
+  site-url: https://davidrsch.github.io/hopr-es/
+  description: |
+    Traducción al español de "Hands-On Programming with R" de Garrett Grolemund.
+    Aprende a programar en R construyendo proyectos prácticos y divertidos desde cero.
+  open-graph: true
+
   page-footer:
     left: |
       Programación práctica con R fue escrito por Garrett Grolemund.
@@ -24,7 +29,7 @@ book:
           - text: Original
             url: https://github.com/rstudio-education/hopr
           - text: Traducción
-            url: https://github.com/davidrsch/hopres
+            url: https://github.com/davidrsch/hopr-es
   chapters:
     - index.qmd
     - preface.qmd
